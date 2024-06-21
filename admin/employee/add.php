@@ -87,7 +87,7 @@
                   <div class="form-group">
                     <div class="col-md-8">
                       <label class="col-md-4 control-label" for=
-                      "Gender">Sex:</label>
+                      "Sex">Sex:</label>
 
                       <div class="col-md-8">
                          <div class="col-lg-5">
@@ -201,46 +201,32 @@
                                 </div>
                               </div>
                             </div>  
-
-                             <div class="form-group">
-                                <div class="col-md-8">
-                                  <label class="col-md-4 control-label" for=
-                                  "CATEGORYID">Plantilla Status:</label>
+                            <div class="form-group">
+                              <div class="col-md-8">
+                                <label class="col-md-4 control-label" for="CATEGORYID">Plantilla Status:</label>
                                   <div class="col-md-8">
-                                    <select class="form-control input-sm" id="CATEGORYID" name="CATEGORYID">
-                                      <option value="None">Select</option>
-                                      <?php 
-                                        $sql = "Select * From tblcategory";
-                                        $mydb->setQuery($sql);
-                                        $res = $mydb->loadResultList();
-                                        foreach ($res as $row) {
-                                          echo '<option value='.$row->CATEGORYID.'>'.$row->CATEGORY.'</option>';
-                                        }
-                                      ?>
-                                    </select>
-                                  </div>
+                                <select name="CATEGORY" class="form-control" required>
+                                    <option value="">Select</option>
+                                    <?php
+                                    // Fetch categories from the database and populate the dropdown
+                                    $mydb->setQuery("SELECT * FROM tblcategory");
+                                    $catList = $mydb->loadResultList();
+                                    foreach ($catList as $category) {
+                                        echo '<option value="' . $category->CATEGORYID . '">' . $category->CATEGORY . '</option>';
+                                    }
+                                    ?>
+                                </select>
                                 </div>
-                              </div>  
-
-                          
-
+                            </div>
                         <div class="form-group">
-                    <div class="col-md-8">
-                      <label class="col-md-4 control-label" for=
-                      "idno"></label>  
-
-                      <div class="col-md-8">
+                          <div class="col-md-8">
+                            <label class="col-md-4 control-label" for="incid"></label>  
+                       <div class="col-md-8">
                          <button class="btn btn-primary btn-sm" name="save" type="submit" ><span class="fa fa-save fw-fa"></span> Save</button>
-                       
-                     </div>
-                    </div>
+                       </div>
+                        </div>
                   </div> 
- 
-
                   </form>
-       
-       
-                
                 </div><!--/.services-->
             </div><!--/.row-->  
         </div><!--/.container-->

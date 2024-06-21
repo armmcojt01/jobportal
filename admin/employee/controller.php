@@ -1,197 +1,183 @@
 <?php
 require_once ("../../include/initialize.php");
-require_once("../../include/employees.php");
+ if(!isset($_SESSION['ADMIN_USERID'])){
+      redirect(web_root."admin/index.php");
+     }
+	 require_once("../../include/employees.php");
 
-if (!isset($_SESSION['ADMIN_USERID'])) {
-    redirect(web_root . "admin/index.php");
-}
-
-$action = $_GET['action'] ?? '';
+$action = (isset($_GET['action']) && $_GET['action'] != '') ? $_GET['action'] : '';
 
 switch ($action) {
-    case 'add':
-        doInsert();
-        break;
+	case 'add' :
+	doInsert();
+	break;
+	
+	case 'edit' :
+	doEdit();
+	break; 
+	
+	case 'delete' :
+	doDelete();
+	break;
 
-    case 'edit':
-        doEdit();
-        break;
-
-    case 'delete':
-        doDelete();
-        break;
-
-    case 'photos':
-        doupdateimage();
-        break;
-
-    case 'addfiles':
-        doAddFiles();
-        break;
-
-    case 'checkid':
-        Check_StudentID();
-        break;
-
-    default:
-        // Handle invalid action
-        break;
-}
+	case 'photos' :
+	doupdateimage();
+	break;
    
-function doInsert() {
-    global $mydb;
+   
+    case 'addfiles' :
+	doAddFiles();
+	break;
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save'])) {
-        $requiredFields = ['FNAME', 'LNAME', 'MNAME', 'ADDRESS', 'TELNO', 'BIRTHDATE', 'EMPLOYEEID', 'EMP_HIREDDATE', 'BIRTHPLACE', 'CIVILSTATUS', 'POSITION', 'EMP_EMAILADDRESS', 'CATEGORYID'];
+	case 'checkid' :
+	Check_StudentID();
+	break;
+	
 
-        foreach ($requiredFields as $field) {
-            if (empty($_POST[$field])) {
+	}
+    function doInsert() {
+        global $mydb;
+        if (isset($_POST['save'])) {
+    
+            if ($_POST['FNAME'] == "" || $_POST['LNAME'] == "" || $_POST['MNAME'] == "" || $_POST['ADDRESS'] == "" || $_POST['TELNO'] == "") {
+                $messageStats = false;
                 message("All fields are required!", "error");
                 redirect('index.php?view=add');
-                return;
+            } else {
+                $birthdate = date_format(date_create($_POST['BIRTHDATE']), 'Y-m-d');
+                $age = date_diff(date_create($birthdate), date_create('today'))->y;
+    
+                if ($age < 20) {
+                    message("Invalid age. 20 years old and above is allowed.", "error");
+                    redirect("index.php?view=add");
+                } else {
+                    $sql = "SELECT * FROM tblemployees WHERE EMPLOYEEID='" . $_POST['EMPLOYEEID'] . "'";
+                    $mydb->setQuery($sql);
+                    $cur = $mydb->executeQuery();
+                    $maxrow = $mydb->num_rows($cur);
+    
+                    if ($maxrow > 0) {
+                        message("Employee ID already in use!", "error");
+                        redirect("index.php?view=add");
+                    } else {
+                        $datehired = date_format(date_create($_POST['EMP_HIREDDATE']), 'Y-m-d');
+    
+                        $emp = new Employee();
+                        $emp->EMPLOYEEID = $_POST['EMPLOYEEID'];
+                        $emp->FNAME = $_POST['FNAME'];
+                        $emp->LNAME = $_POST['LNAME'];
+                        $emp->MNAME = $_POST['MNAME'];
+                        $emp->ADDRESS = $_POST['ADDRESS'];
+                        $emp->BIRTHDATE = $birthdate;
+                        $emp->BIRTHPLACE = $_POST['BIRTHPLACE'];
+                        $emp->AGE = $age;
+                        $emp->SEX = $_POST['optionsRadios'];
+                        $emp->TELNO = $_POST['TELNO'];
+                        $emp->CIVILSTATUS = $_POST['CIVILSTATUS'];
+                        $emp->POSITION = trim($_POST['POSITION']);
+                        $emp->EMP_EMAILADDRESS = $_POST['EMP_EMAILADDRESS'];
+                        $emp->EMPUSERNAME = $_POST['EMPLOYEEID'];
+                        $emp->EMPPASSWORD = sha1($_POST['EMPLOYEEID']);
+                        $emp->DATEHIRED = $datehired;
+                        $emp->CATEGORY = $_POST['CATEGORY']; // Correct field name
+                        $emp->create();
+    
+                        $user = new User();
+                        $user->USERID = $_POST['EMPLOYEEID'];
+                        $user->FULLNAME = $_POST['FNAME'] . ' ' . $_POST['LNAME'];
+                        $user->USERNAME = $_POST['LNAME'];
+                        $user->PASS = sha1($_POST['EMPLOYEEID']);
+                        $user->ROLE = 'Employee';
+                        $user->create();
+    
+                        $autonum = new Autonumber();
+                        $autonum->auto_update('employeeid');
+    
+                        message("New employee created successfully!", "success");
+                        redirect("index.php");
+                    }
+                }
             }
         }
+    }  
+    function doEdit() {
+        if (isset($_POST['save'])) {
 
-        $birthdate = date('Y-m-d', strtotime($_POST['BIRTHDATE']));
-        $age = date_diff(date_create($birthdate), date_create('today'))->y;
-
-        if ($age < 20) {
-            message("Invalid age. 20 years old and above is allowed.", "error");
-            redirect("index.php?view=add");
-            return;
-        }
-
-        $sql = "SELECT * FROM tblemployees WHERE EMPLOYEEID = '" . $_POST['EMPLOYEEID'] . "'";
-        $mydb->setQuery($sql);
-        $cur = $mydb->executeQuery();
-        $maxrow = $mydb->num_rows($cur);
-
-        if ($maxrow > 0) {
-            message("Employee ID already in use!", "error");
-            redirect("index.php?view=add");
-            return;
-        }
-
-        $datehired = date('Y-m-d', strtotime($_POST['EMP_HIREDDATE']));
-        $emp = new Employee();
-        $emp->EMPLOYEEID = $_POST['EMPLOYEEID'];
-        $emp->FNAME = $_POST['FNAME'];
-        $emp->LNAME = $_POST['LNAME'];
-        $emp->MNAME = $_POST['MNAME'];
-        $emp->ADDRESS = $_POST['ADDRESS'];
-        $emp->BIRTHDATE = $birthdate;
-        $emp->BIRTHPLACE = $_POST['BIRTHPLACE'];
-        $emp->AGE = $age;
-        $emp->SEX = $_POST['optionsRadios'];
-        $emp->TELNO = $_POST['TELNO'];
-        $emp->CIVILSTATUS = $_POST['CIVILSTATUS'];
-        $emp->POSITION = trim($_POST['POSITION']);
-        $emp->EMP_EMAILADDRESS = $_POST['EMP_EMAILADDRESS'];
-        $emp->EMPUSERNAME = $_POST['EMPLOYEEID'];
-        $emp->EMPPASSWORD = password_hash($_POST['EMPLOYEEID'], PASSWORD_BCRYPT);
-        $emp->DATEHIRED = $datehired;
-        $emp->CATEGORYID = $_POST['CATEGORYID'];
-        $emp->create();
-
-        $user = new User();
-        $user->USERID = $_POST['EMPLOYEEID'];
-        $user->FULLNAME = $_POST['FNAME'] . ' ' . $_POST['LNAME'];
-        $user->USERNAME = $_POST['LNAME'];
-        $user->PASS = password_hash($_POST['EMPLOYEEID'], PASSWORD_BCRYPT);
-        $user->ROLE = 'Employee';
-        $user->create();
-
-        $autonum = new Autonumber();
-        $autonum->auto_update('employeeid');
-
-        message("New employee created successfully!", "success");
-        redirect("index.php");
-    }
-}
-function doEdit() {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save'])) {
-        $requiredFields = ['FNAME', 'LNAME', 'MNAME', 'ADDRESS', 'TELNO', 'BIRTHDATE', 'EMPLOYEEID', 'EMP_HIREDDATE', 'BIRTHPLACE', 'CIVILSTATUS', 'POSITION', 'EMP_EMAILADDRESS', 'CATEGORYID'];
-
-        foreach ($requiredFields as $field) {
-            if (empty($_POST[$field])) {
+            if ($_POST['FNAME'] == "" || $_POST['LNAME'] == "" || $_POST['MNAME'] == "" || $_POST['ADDRESS'] == "" || $_POST['TELNO'] == "") {
                 message("All fields are required!", "error");
-                redirect('index.php?view=edit&id=' . $_POST['EMPLOYEEID']);
-                return;
+                redirect('index.php?view=add');
+            } else {
+                $birthdate = date_format(date_create($_POST['BIRTHDATE']), 'Y-m-d');
+                $age = date_diff(date_create($birthdate), date_create('today'))->y;
+    
+                if ($age < 20) {
+                    message("Invalid age. 20 years old and above is allowed.", "error");
+                    redirect("index.php?view=edit&id=" . $_POST['EMPLOYEEID']);
+                } else {
+                    $datehired = date_format(date_create($_POST['EMP_HIREDDATE']), 'Y-m-d');
+    
+                    $emp = new Employee();
+                    $emp->EMPLOYEEID = $_POST['EMPLOYEEID'];
+                    $emp->FNAME = $_POST['FNAME'];
+                    $emp->LNAME = $_POST['LNAME'];
+                    $emp->MNAME = $_POST['MNAME'];
+                    $emp->ADDRESS = $_POST['ADDRESS'];
+                    $emp->BIRTHDATE = $birthdate;
+                    $emp->BIRTHPLACE = $_POST['BIRTHPLACE'];
+                    $emp->AGE = $age;
+                    $emp->SEX = $_POST['optionsRadios'];
+                    $emp->TELNO = $_POST['TELNO'];
+                    $emp->CIVILSTATUS = $_POST['CIVILSTATUS'];
+                    $emp->POSITION = trim($_POST['POSITION']);
+                    $emp->EMP_EMAILADDRESS = $_POST['EMP_EMAILADDRESS'];
+                    $emp->EMPUSERNAME = $_POST['EMPLOYEEID'];
+                    $emp->EMPPASSWORD = sha1($_POST['EMPLOYEEID']);
+                    $emp->DATEHIRED = $datehired;
+                    $emp->CATEGORY = $_POST['CATEGORY']; // Correct field name
+                    $emp->update($_POST['EMPLOYEEID']);
+    
+                    $user = new User();
+                    $u_res = $user->single_user($_POST['EMPLOYEEID']);
+    
+                    if ($u_res) {
+                        $user->FULLNAME = $_POST['FNAME'] . ' ' . $_POST['LNAME'];
+                        $user->USERNAME = $_POST['LNAME'];
+                        $user->PASS = sha1($_POST['EMPLOYEEID']);
+                        $user->update($_POST['EMPLOYEEID']);
+                    } else {
+                        $user = new User();
+                        $user->USERID = $_POST['EMPLOYEEID'];
+                        $user->FULLNAME = $_POST['FNAME'] . ' ' . $_POST['LNAME'];
+                        $user->USERNAME = $_POST['LNAME'];
+                        $user->PASS = sha1($_POST['EMPLOYEEID']);
+                        $user->ROLE = 'Employee';
+                        $user->create();
+                    }
+    
+                    message("Employee has been updated!", "success");
+                    redirect("index.php?view=edit&id=" . $_POST['EMPLOYEEID']);
+                }
             }
         }
-
-        $birthdate = date('Y-m-d', strtotime($_POST['BIRTHDATE']));
-        $age = date_diff(date_create($birthdate), date_create('today'))->y;
-
-        if ($age < 20) {
-            message("Invalid age. 20 years old and above is allowed.", "error");
-            redirect("index.php?view=edit&id=" . $_POST['EMPLOYEEID']);
-            return;
-        }
-
-        $datehired = date('Y-m-d', strtotime($_POST['EMP_HIREDDATE']));
-        $emp = new Employee();
-        $emp->EMPLOYEEID = $_POST['EMPLOYEEID'];
-        $emp->FNAME = $_POST['FNAME'];
-        $emp->LNAME = $_POST['LNAME'];
-        $emp->MNAME = $_POST['MNAME'];
-        $emp->ADDRESS = $_POST['ADDRESS'];
-        $emp->BIRTHDATE = $birthdate;
-        $emp->BIRTHPLACE = $_POST['BIRTHPLACE'];
-        $emp->AGE = $age;
-        $emp->SEX = $_POST['optionsRadios'];
-        $emp->TELNO = $_POST['TELNO'];
-        $emp->CIVILSTATUS = $_POST['CIVILSTATUS'];
-        $emp->POSITION = trim($_POST['POSITION']);
-        $emp->EMP_EMAILADDRESS = $_POST['EMP_EMAILADDRESS'];
-        $emp->EMPUSERNAME = $_POST['EMPLOYEEID'];
-        $emp->EMPPASSWORD = password_hash($_POST['EMPLOYEEID'], PASSWORD_BCRYPT);
-        $emp->DATEHIRED = $datehired;
-        $emp->CATEGORY = $_POST['CATEGORYID'];
-
-        if ($emp->update($_POST['EMPLOYEEID'])) {
-            updateOrCreateUser($_POST);
-            message("Employee has been updated!", "success");
-        } else {
-            message("Error updating employee details!", "error");
-        }
-        redirect("index.php?view=edit&id=" . $_POST['EMPLOYEEID']);
     }
-}
+    
+	function doDelete(){
+		
+	
+				$id = 	$_GET['id'];
 
-function updateOrCreateUser($postData) {
-    $user = new User();
-    $existingUser = $user->single_user($postData['EMPLOYEEID']);
+				$emp = New Employee();
+	 		 	$emp->delete($id);
+			 
+		
+		// }
+			message("Employee(s) already Deleted!","success");
+			redirect('index.php');
+		// }
 
-    if ($existingUser) {
-        $user->FULLNAME = $postData['FNAME'] . ' ' . $postData['LNAME'];
-        $user->USERNAME = $postData['LNAME'];
-        $user->PASS = password_hash($postData['EMPLOYEEID'], PASSWORD_BCRYPT);
-        $user->update($postData['EMPLOYEEID']);
-    } else {
-        $user->USERID = $postData['EMPLOYEEID'];
-        $user->FULLNAME = $postData['FNAME'] . ' ' . $postData['LNAME'];
-        $user->USERNAME = $postData['LNAME'];
-        $user->PASS = password_hash($postData['EMPLOYEEID'], PASSWORD_BCRYPT);
-        $user->ROLE = 'Employee';
-        $user->create();
-    }
-}
+		
+	}
 
-function doDelete() {
-    $id = $_GET['id'] ?? null;
-
-    if ($id) {
-        $emp = new Employee();
-        $emp->delete($id);
-
-        message("Employee(s) already Deleted!", "success");
-    } else {
-        message("Invalid Employee ID!", "error");
-    }
-
-    redirect('index.php');
-}
  
  
   function UploadImage(){
@@ -215,33 +201,44 @@ function doDelete() {
 				}
 } 
 
-function doupdateimage() {
-    if ($_FILES['photo']['error'] > 0) {
-        message("No Image Selected!", "error");
-        redirect("index.php?view=view&id=" . $_GET['id']);
-        return;
-    }
+	function doupdateimage(){
+ 
+			$errofile = $_FILES['photo']['error'];
+			$type = $_FILES['photo']['type'];
+			$temp = $_FILES['photo']['tmp_name'];
+			$myfile =$_FILES['photo']['name'];
+		 	$location="photo/".$myfile;
 
-    $imageFileType = strtolower(pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION));
-    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
 
-    if (!in_array($imageFileType, $allowedTypes)) {
-        message("Uploaded file is not a valid image!", "error");
-        redirect("index.php?view=view&id=" . $_GET['id']);
-        return;
-    }
+		if ( $errofile > 0) {
+				message("No Image Selected!", "error");
+				redirect("index.php?view=view&id=". $_GET['id']);
+		}else{
+	 
+				@$file=$_FILES['photo']['tmp_name'];
+				@$image= addslashes(file_get_contents($_FILES['photo']['tmp_name']));
+				@$image_name= addslashes($_FILES['photo']['name']); 
+				@$image_size= getimagesize($_FILES['photo']['tmp_name']);
 
-    $target_dir = "../../employee/photos/";
-    $target_file = $target_dir . date("dmYhis") . basename($_FILES["photo"]["name"]);
+			if ($image_size==FALSE ) {
+				message("Uploaded file is not an image!", "error");
+				redirect("index.php?view=view&id=". $_GET['id']);
+			}else{
+					//uploading the file
+					move_uploaded_file($temp,"photo/" . $myfile);
+		 	
+					 
 
-    if (move_uploaded_file($_FILES["photo"]["tmp_name"], $target_file)) {
-        $stud = new Student();
-        $stud->StudPhoto = $target_file;
-        $stud->studupdate($_POST['StudentID']);
-        redirect("index.php?view=view&id=" . $_POST['StudentID']);
-    } else {
-        message("Error uploading file", "error");
-        redirect("index.php?view=view&id=" . $_POST['StudentID']);
-    }
-}
+						$stud = New Student();
+						$stud->StudPhoto	= $location;
+						$stud->studupdate($_POST['StudentID']);
+						redirect("index.php?view=view&id=". $_POST['StudentID']);
+						 
+							
+					}
+			}
+			 
+		}
+
+ 
 ?>

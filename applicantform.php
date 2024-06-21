@@ -116,12 +116,12 @@ if (!isset($_SESSION['APPLICANTID'])) {
           <div class="panel panel-default">
             <div class="panel-header">
               <div style="border-bottom: 1px solid #ddd; padding: 10px; font-size: 25px; font-weight: bold; color: #000; margin-bottom: 5px;">
-                Attach File here.
+                Attach File (PDF form).
                 <input name="JOBID" type="hidden" value="<?php echo $_GET['job']; ?>">
               </div>
             </div>
             <div class="panel-body">
-              <label class="col-md-2" for="picture" style="padding: 0; margin: 0;">Attachment File:</label>
+              <!-- <label class="col-md-2" for="picture" style="padding: 0; margin: 0;">Attachment all requirements here:</label> -->
               <div class="col-md-10" style="padding: 0; margin: 0;">
                 <input id="picture" name="picture" type="file" required>
                 <input name="MAX_FILE_SIZE" type="hidden" value="1000000">

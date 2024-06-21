@@ -19,7 +19,7 @@ class Autonumber {
   
     function set_autonumber($Autokey){
 			global $mydb;
-			$mydb->setQuery("SELECT concat(`AUTOSTART`, `AUTOEND`) AS 'AUTO' FROM ".self::$tblname." 
+			$mydb->setQuery("SELECT concat(AUTOSTART, AUTOEND) AS 'AUTO' FROM ".self::$tblname." 
 				Where AUTOKEY= '{$Autokey}' LIMIT 1");
 			$cur = $mydb->loadSingleResult();
 			return $cur;

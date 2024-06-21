@@ -129,56 +129,35 @@ class Employee {
         }
     }
 
-	public function update($id) {
-		global $mydb;
-	
-		$sql = "UPDATE tblemployees SET 
-					FNAME = '{$this->FNAME}',
-					LNAME = '{$this->LNAME}',
-					MNAME = '{$this->MNAME}',
-					ADDRESS = '{$this->ADDRESS}',
-					BIRTHDATE = '{$this->BIRTHDATE}',
-					BIRTHPLACE = '{$this->BIRTHPLACE}',
-					AGE = '{$this->AGE}',
-					SEX = '{$this->SEX}',
-					TELNO = '{$this->TELNO}',
-					CIVILSTATUS = '{$this->CIVILSTATUS}',
-					POSITION = '{$this->POSITION}',
-					EMP_EMAILADDRESS = '{$this->EMP_EMAILADDRESS}',
-					EMPUSERNAME = '{$this->EMPUSERNAME}',
-					EMPPASSWORD = '{$this->EMPPASSWORD}',
-					DATEHIRED = '{$this->DATEHIRED}',
-					CATEGORY = '{$this->CATEGORY}'
-				WHERE EMPLOYEEID = '{$id}'";
-	
-		$mydb->setQuery($sql);
-		if ($mydb->executeQuery()) {
-			return true;
-		} else {
-			// Add detailed error handling here
-			echo "Error updating employee details: " . $mydb->getError(); // Output detailed error message for debugging
-			return false;
-		}
-	}
-	
-
-    public function empupdate($id=0) {
+    public function update($id='') {
         global $mydb;
-        $attributes = $this->sanitized_attributes();
-        $attribute_pairs = array();
-        foreach ($attributes as $key => $value) {
+          $attributes = $this->sanitized_attributes();
+          $attribute_pairs = array();
+          foreach($attributes as $key => $value) {
             $attribute_pairs[] = "{$key}='{$value}'";
-        }
-        $sql = "UPDATE " . self::$tblname . " SET ";
-        $sql .= join(", ", $attribute_pairs);
-        $sql .= " WHERE INCID=" . $id;
-    
-        $mydb->setQuery($sql);
-        if (!$mydb->executeQuery()) {
-            return false;
-        }
-        return true;
-    }
+          }
+          $sql = "UPDATE ".self::$tblname." SET ";
+          $sql .= join(", ", $attribute_pairs);
+          $sql .= " WHERE EMPLOYEEID='". $id."'";
+       
+           if(!$mydb->setQuery($sql)) return false; 	
+          
+      }
+  
+     public function empupdate($id=0) {
+        global $mydb;
+          $attributes = $this->sanitized_attributes();
+          $attribute_pairs = array();
+          foreach($attributes as $key => $value) {
+            $attribute_pairs[] = "{$key}='{$value}'";
+          }
+          $sql = "UPDATE ".self::$tblname." SET ";
+          $sql .= join(", ", $attribute_pairs);
+          $sql .= " WHERE INCID=". $id;
+       
+           if(!$mydb->setQuery($sql)) return false; 	
+          
+      }
 
     public function delete($id='') {
         global $mydb;

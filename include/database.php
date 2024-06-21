@@ -51,15 +51,15 @@ class Database {
         }
     }
     
-    // public function executeQuery(){
-    //     try {
-    //         $this->query->execute();
-    //     } catch (PDOException $e) {
-    //         echo "Failed to execute query: " . $e->getMessage();
-    //         return false;
-    //     }
-    //     return true;
-    // }
+    public function executeQuery(){
+        try {
+            $this->query->execute();
+        } catch (PDOException $e) {
+            echo "Failed to execute query: " . $e->getMessage();
+            return false;
+        }
+        return true;
+    }
     
     function loadResultList() {
         $results = $this->query->fetchAll(PDO::FETCH_OBJ);

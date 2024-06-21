@@ -93,52 +93,51 @@
        
    }
 
-   switch ($emp->WORKSTATS) {
+  //  switch ($emp->CATEGORY) {
 
-     case 'Regular':
-       # code...
-        $workstatus ='
-        <select class="form-control input-sm" name="WORKSTATS" id="WORKSTATS">
-                                      <option value="none" >Select</option>
-                                      <option value="Temporary">Temporary</option>
-                                      <option SELECTED  value="Regular">Regular</option>
-                                      <option value="Probationary">Probationary</option> 
-                                  </select> ';
-       break;
+  //    case 'Regular':
+  //      # code...
+  //       $workstatus ='
+  //       <select class="form-control input-sm" name="CATEGORY" id="CATEGORY">
+  //                                     <option value="none" >Select</option>
+  //                                     <option value="Temporary">Temporary</option>
+  //                                     <option SELECTED  value="Regular">Regular</option>
+  //                                     <option value="Probationary">Probationary</option> 
+  //                                 </select> ';
+  //      break;
 
-     case 'Regular':
-       # code...
-        $workstatus ='
-        <select class="form-control input-sm" name="WORKSTATS" id="WORKSTATS">
-                                      <option value="none" >Select</option>
-                                      <option value="Temporary">Temporary</option>
-                                      <option SELECTED value="Regular">Regular</option>
-                                      <option value="Probationary">Probationary</option> 
-                                  </select> ';
-       break;
-     case 'Probationary':
-       # code...
-         $workstatus='
-         <select class="form-control input-sm" name="WORKSTATS" id="WORKSTATS">
-                                      <option value="none" >Select</option>
-                                      <option value="Temporary">Temporary</option>
-                                      <option value="Regular">Regular</option>
-                                      <option SELECTED value="Probationary">Probationary</option> 
-                                  </select> ';
+  //    case 'Regular':
+  //      # code...
+  //       $workstatus ='
+  //       <select class="form-control input-sm" name="CATEGORY" id="CATEGORY">
+  //                                     <option value="none" >Select</option>
+  //                                     <option value="Temporary">Temporary</option>
+  //                                     <option SELECTED value="Regular">Regular</option>
+  //                                     <option value="Probationary">Probationary</option> 
+  //                                 </select> ';
+  //      break;
+  //    case 'Probationary':
+  //      # code...
+  //        $workstatus='
+  //        <select class="form-control input-sm" name="CATEGORY" id="CATEGORY">
+  //                                     <option value="none" >Select</option>
+  //                                     <option value="Temporary">Temporary</option>
+  //                                     <option value="Regular">Regular</option>
+  //                                     <option SELECTED value="Probationary">Probationary</option> 
+  //                                 </select> ';
 
-       break; 
+  //      break; 
 	   
-     default:
-        $workstatus='
-       <select class="form-control input-sm" name="WORKSTATS" id="WORKSTATS">
-                                      <option SELECTED value="none" >Select</option>
-                                      <option value="Temporary">Temporary</option>
-                                      <option value="Regular">Regular</option>
-                                      <option value="Probationary">Probationary</option> 
-                                  </select> ';
-        break;
+  //    default:
+  //       $workstatus='
+  //      <select class="form-control input-sm" name="CATEGORY" id="CATEGORY">
+  //                                     <option SELECTED value="none" >Select</option>
+  //                                     <option value="Temporary">Temporary</option>
+  //                                     <option value="Regular">Regular</option>
+  //                                     <option value="Probationary">Probationary</option> 
+  //                                 </select> ';
+  //       break;
        
-   }
 
   
  ?> 
@@ -251,7 +250,7 @@
                              <div class="form-group">
                               <div class="col-md-8">
                                 <label class="col-md-4 control-label" for=
-                                "TELNO">Conact No.:</label>
+                                "TELNO">Contact No.:</label>
 
                                 <div class="col-md-8">
                                   
@@ -275,12 +274,12 @@
                             <div class="form-group">
                               <div class="col-md-8">
                                 <label class="col-md-4 control-label" for=
-                                "POSITION">Postion:</label>
+                                "POSITION">Position:</label>
 
                                 <div class="col-md-8">
                                   
                                    <input class="form-control input-sm" id="POSITION" name="POSITION" placeholder=
-                                      "Postion" type="text" any value="<?php echo $emp->POSITION;?>" required   autocomplete="off">
+                                      "Position" type="text" any value="<?php echo $emp->POSITION;?>" required   autocomplete="off">
                                 </div>
                               </div>
                             </div>
@@ -313,21 +312,19 @@
                                 <div class="col-md-8">
                                     <label class="col-md-4 control-label" for="CATEGORY">Plantilla Status:</label>
                                     <div class="col-md-8">
-                                        <select class="form-control input-sm" id="CATEGORYID" name="CATEGORYID">
-                                            <option value="">Select</option>
-                                            <?php 
-                                            // Fetch all categories
-                                            $sql = "SELECT * FROM tblcategory";
-                                            $mydb->setQuery($sql);
-                                            $categories = $mydb->loadResultList();
-
-                                            // Loop through categories to create options
-                                            foreach ($categories as $category) {
-                                                $selected = ($category->CATEGORYID == $emp->CATEGORYID) ? 'selected' : '';
-                                                echo '<option value="' . $category->CATEGORYID . '" ' . $selected . '>' . $category->CATEGORY . '</option>';
-                                            }
-                                            ?>
-                                        </select>
+                                    <select class="form-control input-sm" id="CATEGORY" name="CATEGORY">
+                                        <option value="None">Select</option>
+                                        <?php
+                                        $sql = "SELECT * FROM tblcategory";
+                                        $mydb->setQuery($sql);
+                                        $categories = $mydb->loadResultList();
+                                        foreach ($categories as $category) {
+                                            $selected = ($category->CATEGORYID == $employee->CATEGORYID) ? 'selected' : '';
+                                            echo '<option value="' . $category->CATEGORYID . '" ' . $selected . '>' . $category->CATEGORY . '</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                      </select>
                                     </div>
                                 </div>
                             </div>

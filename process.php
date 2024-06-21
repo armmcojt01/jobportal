@@ -40,13 +40,13 @@ function doSubmitApplication() {
         redirect(web_root . "index.php?q=apply&job=" . $jobid . "&view=personalinfo");
     } else {
         if (isset($_SESSION['APPLICANTID'])) {
-            $sql = "INSERT INTO `tblattachmentfile` (FILEID, `USERATTACHMENTID`, `FILE_NAME`, `FILE_LOCATION`, `JOBID`) 
+            $sql = "INSERT INTO tblattachmentfile (FILEID, USERATTACHMENTID, FILE_NAME, FILE_LOCATION, JOBID) 
                     VALUES ('" . date('Y') . $fileid->AUTO . "', '{$_SESSION['APPLICANTID']}', 'Resume', '{$location}', '{$jobid}')";
             $mydb->setQuery($sql);
             doUpdate($jobid, $fileid->AUTO);
         } else {
             if ($applicantid) {
-                $sql = "INSERT INTO `tblattachmentfile` (FILEID, `USERATTACHMENTID`, `FILE_NAME`, `FILE_LOCATION`, `JOBID`) 
+                $sql = "INSERT INTO tblattachmentfile (FILEID, USERATTACHMENTID, FILE_NAME, FILE_LOCATION, JOBID) 
                         VALUES ('" . date('Y') . $fileid->AUTO . "', '" . date('Y') . $applicantid->AUTO . "', 'Resume', '{$location}', '{$jobid}')";
                 $mydb->setQuery($sql);
                 doInsert($jobid, $fileid->AUTO);
@@ -95,7 +95,7 @@ function doInsert($jobid=0, $fileid=0) {
             $applicant->DEGREE = $_POST['DEGREE'];
             $applicant->create();
 
-            $sql = "SELECT * FROM `tbljob` j WHERE JOBID = '{$jobid}'";
+            $sql = "SELECT * FROM tbljob j WHERE JOBID = '{$jobid}'";
             $mydb->setQuery($sql);
             $result = $mydb->loadSingleResult();
 
@@ -125,7 +125,7 @@ function doUpdate($jobid=0, $fileid=0) {
         $applicant = New Applicants();
         $appl = $applicant->single_applicant($_SESSION['APPLICANTID']);
 
-        $sql = "SELECT * FROM `tbljob` j WHERE JOBID = '{$jobid}'";
+        $sql = "SELECT * FROM tbljob j WHERE JOBID = '{$jobid}'";
         $mydb->setQuery($sql);
         $result = $mydb->loadSingleResult();
 
