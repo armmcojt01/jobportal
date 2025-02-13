@@ -18,7 +18,6 @@ $sql = "SELECT * FROM `tblattachmentfile` WHERE `FILEID`=" .$jobreg->FILEID;
 $mydb->setQuery($sql);
 $attachmentfile = $mydb->loadSingleResult();
 
-
 ?> 
 
 <style type="text/css">
@@ -89,7 +88,11 @@ $attachmentfile = $mydb->loadSingleResult();
 <div class="col-sm-12 content-footer">
     <p><i class="fa fa-paperclip"></i> Attachment Files</p>
     <div class="col-sm-12 slider">
-        <h3>Download File <a href="<?php echo web_root.'applicant/'.$attachmentfile->FILE_LOCATION; ?>">Here</a></h3>
+        <?php if ($attachmentfile && !empty($attachmentfile->FILE_LOCATION)) : ?>
+            <h3>Download File <a href="<?php echo web_root . '.applicant/photos' . $attachmentfile->FILE_LOCATION; ?>">Here</a></h3>
+        <?php else : ?>
+            <h3>No file available for download.</h3>
+        <?php endif; ?>
     </div>  
     <div class="col-sm-12">
         <p>Feedback</p>
@@ -99,4 +102,5 @@ $attachmentfile = $mydb->loadSingleResult();
         <a href="index.php?view=appliedjobs" class="btn btn-primary fa fa-arrow-left">Back</a>
     </div> 
 </div>
+
 </form>

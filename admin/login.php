@@ -14,7 +14,7 @@ require_once("../include/initialize.php");
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>ERIS | Log in</title>
+  <title>ARMMC ORIS | Log in</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.5 -->
@@ -40,7 +40,7 @@ require_once("../include/initialize.php");
   </div> -->
   <!-- /.login-logo -->
   <div class="login-box-body" style="min-height: 400px;">
-    <h1 class="login-box-msg">Login to ARMMC ORS</h1>
+    <h1 class="login-box-msg">Login to ARMMC ORIS</h1>
     <hr/>
     <p><?php check_message(); ?></p>
 

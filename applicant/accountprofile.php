@@ -10,7 +10,7 @@ $appl = $applicant->single_applicant($_SESSION['APPLICANTID']);
 <form class="form-horizontal" method="POST" action="controller.php?action=edit">  
   <div class="container">  
     <div class="box-header with-border">
-      <h3 class="box-title">Accounts</h3>
+      <h3 class="box-title">Account</h3>
     </div> 
     <div class="form-group">
       <div class="col-md-7">
@@ -57,7 +57,7 @@ $appl = $applicant->single_applicant($_SESSION['APPLICANTID']);
           </div>
           <div class="col-lg-4">
             <div class="radio">
-              <label><input id="optionsRadios2" name="optionsRadios" type="radio" value="Male"> Male</label>
+              <label><input checked id="optionsRadios2" name="optionsRadios" type="radio" value="Male"> Male</label>
             </div>
           </div> 
         </div>

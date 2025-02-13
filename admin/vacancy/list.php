@@ -23,7 +23,7 @@
 				  		<th>Deadline of Submission</th> 
 				  		<th>Qualification/Work experience</th> 
 				  		<th>Department</th> 
-				  		<th>Sex</th> 
+				  		<th>Category</th> 
 				  		<th>Status</th> 
 				  		 <th width="10%" align="center">Action</th>
 				  	</tr>	
@@ -40,7 +40,7 @@
 								echo '<td>' . $result->DURATION_EMPLOYMENT.'</td>';
 								echo '<td>' . $result->QUALIFICATION_WORKEXPERIENCE.'</td>';
 								echo '<td>' . $result->SECTOR_VACANCY.'</td>';
-								echo '<td>' . $result->PREFEREDSEX.'</td>';
+								echo '<td>' . $result->CATEGORY.'</td>';
 								echo '<td>' . $result->JOBSTATUS.'</td>';
 								echo '<td align="center"><a title="Edit" href="index.php?view=edit&id='.$result->JOBID.'" class="btn btn-primary btn-xs  ">  <span class="fa fa-edit fw-fa"></a>
 									  <a title="Delete" href="controller.php?action=delete&id='.$result->JOBID.'" class="btn btn-danger btn-xs  ">  <span class="fa fa-trash-o fw-fa "></a></td>';

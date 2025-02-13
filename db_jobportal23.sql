@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.4
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 24, 2019 at 10:09 AM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 5.6.39
+-- Generation Time: Feb 04, 2025 at 08:08 AM
+-- Server version: 10.4.27-MariaDB
+-- PHP Version: 8.2.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_jobportal`
+-- Database: `db_jobportal23`
 --
 
 -- --------------------------------------------------------
@@ -46,7 +45,7 @@ CREATE TABLE `tblapplicants` (
   `DEGREE` text NOT NULL,
   `APPLICANTPHOTO` varchar(255) NOT NULL,
   `NATIONALID` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblapplicants`
@@ -69,7 +68,7 @@ CREATE TABLE `tblattachmentfile` (
   `FILE_NAME` varchar(90) NOT NULL,
   `FILE_LOCATION` varchar(255) NOT NULL,
   `USERATTACHMENTID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblattachmentfile`
@@ -91,7 +90,7 @@ CREATE TABLE `tblautonumbers` (
   `AUTOEND` int(11) NOT NULL,
   `AUTOINC` int(11) NOT NULL,
   `AUTOKEY` varchar(30) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblautonumbers`
@@ -112,7 +111,7 @@ INSERT INTO `tblautonumbers` (`AUTOID`, `AUTOSTART`, `AUTOEND`, `AUTOINC`, `AUTO
 CREATE TABLE `tblcategory` (
   `CATEGORYID` int(11) NOT NULL,
   `CATEGORY` varchar(90) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblcategory`
@@ -145,7 +144,7 @@ CREATE TABLE `tblcompany` (
   `COMPANYCONTACTNO` varchar(30) NOT NULL,
   `COMPANYSTATUS` varchar(90) NOT NULL,
   `COMPANYMISSION` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblcompany`
@@ -186,7 +185,7 @@ CREATE TABLE `tblemployees` (
   `EMPPASSWORD` varchar(125) NOT NULL,
   `DATEHIRED` date NOT NULL,
   `COMPANYID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblemployees`
@@ -206,7 +205,7 @@ CREATE TABLE `tblfeedback` (
   `APPLICANTID` int(11) NOT NULL,
   `REGISTRATIONID` int(11) NOT NULL,
   `FEEDBACK` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -228,7 +227,7 @@ CREATE TABLE `tbljob` (
   `SECTOR_VACANCY` text NOT NULL,
   `JOBSTATUS` varchar(90) NOT NULL,
   `DATEPOSTED` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbljob`
@@ -253,10 +252,10 @@ CREATE TABLE `tbljobregistration` (
   `REGISTRATIONDATE` date NOT NULL,
   `REMARKS` varchar(255) NOT NULL DEFAULT 'Pending',
   `FILEID` int(11) NOT NULL,
-  `PENDINGAPPLICATION` tinyint(1) NOT NULL DEFAULT '1',
-  `HVIEW` tinyint(1) NOT NULL DEFAULT '1',
+  `PENDINGAPPLICATION` tinyint(1) NOT NULL DEFAULT 1,
+  `HVIEW` tinyint(1) NOT NULL DEFAULT 1,
   `DATETIMEAPPROVED` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -271,7 +270,7 @@ CREATE TABLE `tblusers` (
   `PASS` varchar(90) NOT NULL,
   `ROLE` varchar(30) NOT NULL,
   `PICLOCATION` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tblusers`
@@ -360,7 +359,7 @@ ALTER TABLE `tblapplicants`
 -- AUTO_INCREMENT for table `tblattachmentfile`
 --
 ALTER TABLE `tblattachmentfile`
-  MODIFY `FILEID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2147483647;
+  MODIFY `FILEID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2147483648;
 
 --
 -- AUTO_INCREMENT for table `tblautonumbers`

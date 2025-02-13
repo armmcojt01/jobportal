@@ -1,27 +1,28 @@
 <?php
-if (!isset($_SESSION['ADMIN_USERID'])) {
-    redirect(web_root . "admin/index.php");
-}
-?>
-<div class="row">
+	 if(!isset($_SESSION['ADMIN_USERID'])){
+      redirect(web_root."admin/index.php");
+     }
+
+?> 
+	<div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">List of Applicant's</h1>
-    </div>
-    <!-- /.col-lg-12 -->
-</div>
-
-<form class="wow fadeInDown action" action="controller.php?action=delete" Method="POST">
-    <table id="dash-table" class="table table-striped  table-hover table-responsive" style="font-size:12px" cellspacing="0">
-
-        <thead>
-            <tr>
-                <th>Applicant</th>
-                <th>Job Title</th>
-                <th>Applied Date</th>
-                <th>Remarks</th>
-                <th width="14%">Action</th>
-            </tr>
-        </thead>
+            <h1 class="page-header">List of Applicant's   </h1>
+       		</div>
+        	<!-- /.col-lg-12 -->
+   		 </div>
+	 		    <form action="controller.php?action=delete" Method="POST">  	
+			     <div class="table-responsive">					
+				<table id="dash-table" class="table table-striped table-bordered table-hover"  style="font-size:12px" cellspacing="0">
+				
+				  <thead>
+				  	<tr>
+						<th>Applicant</th>
+						<th>Job Title</th>
+						<th>Applied Date</th>
+						<th>Remarks</th>
+						<th width="14%">Action</th>
+					</tr>
+				</thead>
         <tbody>
             <?php
 					$mydb->setQuery("
@@ -53,8 +54,5 @@ if (!isset($_SESSION['ADMIN_USERID'])) {
 					}
 					?>
         </tbody>
-
     </table>
-
-
 </form>

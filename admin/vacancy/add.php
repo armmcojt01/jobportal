@@ -67,13 +67,12 @@
                   </div>  
 
                   <div class="form-group">
-                    <div class="col-md-8">
-                      <label class="col-md-4 control-label" for=
-                      "DURATION_EMPLOYMENT">Deadline for Submission:</label> 
                       <div class="col-md-8">
-                         <input class="form-control input-sm" id="DURATION_EMPLOYMENT" name="DURATION_EMPLOYMENT" placeholder="Deadline of Submission"   autocomplete="none"/> 
+                          <label class="col-md-4 control-label" for="DURATION_EMPLOYMENT">Deadline for Submission:</label> 
+                          <div class="col-md-8">
+                              <input class="form-control input-sm" id="DURATION_EMPLOYMENT" name="DURATION_EMPLOYMENT" placeholder="Deadline of Submission" autocomplete="none" required /> 
+                          </div>
                       </div>
-                    </div>
                   </div>
 
 

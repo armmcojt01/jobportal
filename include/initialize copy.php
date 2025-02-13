@@ -10,7 +10,6 @@ defined('SITE_ROOT') ? null : define ('SITE_ROOT', $_SERVER['DOCUMENT_ROOT'].DS.
 
 defined('LIB_PATH') ? null : define ('LIB_PATH',SITE_ROOT.DS.'include');
 
-
 //load the database configuration first.
 require_once(LIB_PATH.DS."config.php");
 require_once(LIB_PATH.DS."function.php");
@@ -23,8 +22,6 @@ require_once(LIB_PATH.DS."categories.php");
 require_once(LIB_PATH.DS."applicant.php");  
 require_once(LIB_PATH.DS."jobregistration.php");
 require_once(LIB_PATH.DS."remarks.php"); 
-require_once(LIB_PATH.DS."database.php");
 
-// Define web_root after including config.php
-defined('web_root') ? null : define('web_root', 'http://' . $_SERVER['HTTP_HOST'] . '/jobportalapplication/');
+require_once(LIB_PATH.DS."database.php");
 ?>

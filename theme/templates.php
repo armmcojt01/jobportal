@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700,800,900" rel="stylesheet">
+    
 
     <link rel="stylesheet" href="<?php echo web_root; ?>plugins/jobportal/css/open-iconic-bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo web_root; ?>plugins/jobportal/css/animate.css">
@@ -138,6 +139,7 @@
   <script src="<?php echo web_root; ?>plugins/jobportal/js/jquery.timepicker.min.js"></script>
   <script src="<?php echo web_root; ?>plugins/jobportal/js/scrollax.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
   <script src="<?php echo web_root; ?>plugins/jobportal/js/google-map.js"></script>
   <script src="<?php echo web_root; ?>plugins/jobportal/js/main.js"></script>
     <script type="text/javascript">

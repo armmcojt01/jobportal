@@ -2,7 +2,9 @@
     "cSpell.words": [
         "advancesearch",
         "advancesearchresult",
+        "applicantform",
         "applicationform",
+        "appliedjobs",
         "autonumbers",
         "ERRMODE",
         "fullheight",
@@ -10,6 +12,12 @@
         "JOBPORTALAPPLICATION",
         "jobregistration",
         "mydb",
+        "personalinfo",
+        "submitapplication",
+        "tblapplicants",
+        "tblattachmentfile",
+        "tbljob",
+        "USERATTACHMENTID",
         "viewjob"
     ]
 }

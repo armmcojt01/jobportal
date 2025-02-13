@@ -25,27 +25,47 @@
           $mydb->setQuery($sql);
           $cur = $mydb->loadResultList();
 
-          foreach ($cur as $result) {
-          ?>
-          <div class="col-md-12 ftco-animate">
-              <div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center">
-                  <div class="mb-4 mb-md-0 mr-5">
-                      <div class="job-post-item-header d-flex align-items-center">
-                          <h2 class="mr-3 text-black h3"><?php echo $result->OCCUPATIONTITLE ?></h2>
-                          <div class="badge-wrap">
-                              <span class="bg-primary text-white badge py-2 px-3"><?php echo $result->CATEGORY ?></span>
-                          </div>
-                      </div>
-                      <div class="job-post-item-body d-block d-md-flex">
-                          <div class="mr-3"><span class="icon-layers"></span> <a href="#"><?php echo $result->JOBDESCRIPTION ?></a></div>
-                          <div><span class="icon-my_location"></span> <span><?php echo $result->SECTOR_VACANCY ?></span></div>
-                      </div>
-                  </div>
-                  <div class="ml-auto d-flex">
-                        <a href="<?php echo web_root; ?>index.php?q=apply&job=<?php echo $result->JOBID; ?>&view=personalinfo" class="btn btn-primary py-2 mr-1">Apply Job</a>
-                  </div>
-              </div>
-          </div><!-- end -->
-          <?php } ?>
+          if (!empty($cur)) { // Check if there are results
+              foreach ($cur as $result) {
+        ?>
+                <div class="col-md-12 ftco-animate">
+                    <div class="job-post-item bg-white p-4 d-block d-md-flex align-items-center">
+                        <div class="mb-4 mb-md-0 mr-5">
+                            <div class="job-post-item-header d-flex align-items-center">
+                                <h2 class="mr-3 text-black h3"><?php echo $result->OCCUPATIONTITLE; ?></h2>
+                                <div class="badge-wrap">
+                                    <span class="bg-primary text-white badge py-2 px-3"><?php echo $result->CATEGORY; ?></span>
+                                </div>
+                            </div>
+                            <div class="job-post-item-body d-block d-md-flex">
+                                <div class="mr-3"><span class="icon-layers"></span> <a href="#"><?php echo $result->JOBDESCRIPTION; ?></a></div>
+                                <div><span class="icon-my_location"></span> <span><?php echo $result->SECTOR_VACANCY; ?></span></div>
+                            </div>
+                        </div>
+                        <div class="ml-auto d-flex align-items-center">
+                            <?php if ($result->JOBSTATUS == 'active') : ?>
+                                <a href="<?php echo web_root; ?>index.php?q=apply&job=<?php echo $result->JOBID; ?>&view=personalinfo" class="btn btn-primary py-2 mr-1">Apply Job</a>
+                            <?php else : ?>
+                                <button class="btn btn-primary py-2 mr-1" disabled>Apply Job</button>
+                            <?php endif; ?>
+
+                            <?php if (property_exists($result, 'JOBSTATUS')) : ?>
+                                <!-- Display status based on STATUS column -->
+                                <?php if ($result->JOBSTATUS == 'active') : ?>
+                                    <span class="badge badge-success ml-2">Active</span>
+                                <?php else : ?>
+                                    <span class="badge badge-danger ml-2">Inactive</span>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+        <?php
+              } // End foreach
+          } else {
+              echo '<div class="col-md-12">No result found!</div>';
+          }
+        ?>
         </div>
+    </div>
 </section>

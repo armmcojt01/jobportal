@@ -20,30 +20,28 @@
 			<div class="form-group">
 				<div class="col-md-8">
 					<label class="col-md-4 control-label" for=
+					"MNAME">Middle Name:</label>
+
+					<div class="col-md-8">
+					  <input name="mname" type="hidden" value="">
+					  <input  class="form-control input-sm" id="MNAME" name="MNAME" placeholder=
+					      "Middle Name"    onkeyup="javascript:capitalize(this.id, this.value);" autocomplete="off">
+					</div>
+				</div>
+			</div> 
+
+			<div class="form-group">
+				<div class="col-md-8">
+					<label class="col-md-4 control-label" for=
 					"LNAME">Lastname:</label>
 
 					<div class="col-md-8">
-					  <input name="deptid" type="hidden" value="">
+					  <input name="lname" type="hidden" value="">
 					  <input  class="form-control input-sm" id="LNAME" name="LNAME" placeholder=
 					      "Lastname"    onkeyup="javascript:capitalize(this.id, this.value);" autocomplete="off">
 					  </div>
 				</div>
 			</div>
-
-			<div class="form-group">
-				<div class="col-md-8">
-					<label class="col-md-4 control-label" for=
-					"MNAME">Middle Name:</label>
-
-					<div class="col-md-8">
-					  <input name="deptid" type="hidden" value="">
-					  <input  class="form-control input-sm" id="MNAME" name="MNAME" placeholder=
-					      "Middle Name"    onkeyup="javascript:capitalize(this.id, this.value);" autocomplete="off">
-					   <!-- <input class="form-control input-sm" id="DEPARTMENT_DESC" name="DEPARTMENT_DESC" placeholder=
-					      "Description" type="text" value=""> -->
-					</div>
-				</div>
-			</div> 
 
 			<div class="form-group">
 				<div class="col-md-8">
@@ -194,7 +192,7 @@
 			    "USERNAME">Username:</label>
 
 			    <div class="col-md-8">
-			      <input name="deptid" type="hidden" value="">
+			      <input name="userid" type="hidden" value="">
 			      <input  class="form-control input-sm" id="USERNAME" name="USERNAME" placeholder=
 			          "Username"    onkeyup="javascript:capitalize(this.id, this.value);" autocomplete="off">
 			      </div>
@@ -207,11 +205,9 @@
 			    "PASS">Password:</label>
 
 			    <div class="col-md-8">
-			      <input name="deptid" type="hidden" value="">
+			      <input name="pass" type="hidden" value="">
 			      <input  class="form-control input-sm" id="PASS" name="PASS" placeholder=
 			          "Password" type="password"   onkeyup="javascript:capitalize(this.id, this.value);" autocomplete="off">
-			       <!-- <input class="form-control input-sm" id="DEPARTMENT_DESC" name="DEPARTMENT_DESC" placeholder=
-			          "Description" type="text" value=""> -->
 			    </div>
 			  </div>
 			</div> 
@@ -221,7 +217,7 @@
 			    "DEGREE">Educational Attainment:</label>
 
 			    <div class="col-md-8">
-			      <input name="deptid" type="hidden" value="">
+			      <input name="degree" type="hidden" value="">
 			      <input  class="form-control input-sm" id="DEGREE" name="DEGREE" placeholder=
 			          "Educational Attainment"    onkeyup="javascript:capitalize(this.id, this.value);" autocomplete="off">
 			      </div>

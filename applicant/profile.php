@@ -49,11 +49,10 @@
              </div>
           <ul class="list-group"> 
          
-            <li class="list-group-item text-muted">Profile</li> 
-            <li class="list-group-item text-right"><span class="pull-left"><strong>Full Name</strong></span> 
-             <?php echo $applicant->FNAME .' '.substr($applicant->MNAME, 0).'. '.$applicant->LNAME; ?> 
+            <!-- <li class="list-group-item text-muted">Profile</li>  -->
+            <li class="list-group-item text-center"><strong>
+             <?php echo $applicant->FNAME .' '.substr($applicant->MNAME, 0).'. '.$applicant->LNAME; ?> </strong>
              </li>
-            
           </ul> 
                 
 

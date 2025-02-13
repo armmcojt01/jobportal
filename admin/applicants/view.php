@@ -11,11 +11,11 @@ $appl = $applicant->single_applicant($jobreg->APPLICANTID);
 $jobvacancy = new Jobs();
 $job = $jobvacancy->single_job($jobreg->JOBID);
 
-$sql = "SELECT * FROM `tblattachmentfile` WHERE `FILEID` = " . $jobreg->FILEID;
+$sql = "SELECT * FROM `tblattachmentfile` WHERE `FILEID`=" .$jobreg->FILEID;
 $mydb->setQuery($sql);
 $attachmentfile = $mydb->loadSingleResult();
-?> 
 
+?>
 <style type="text/css">
 .content-header {
 	min-height: 50px;
@@ -65,7 +65,7 @@ $attachmentfile = $mydb->loadSingleResult();
 	<div class="col-sm-6">
 		<ul>
             <li><i class="fp-ht-bed"></i>No. of Vacancy : <?php echo $job->REQ_NO_EMPLOYEES; ?></li>
-            <li><i class="fp-ht-food"></i>Salary : <?php echo number_format($job->SALARIES,2);  ?></li>
+            <li><i class="fp-ht-food"></i>Salary Grade: <?php echo number_format($job->SALARIES,2);  ?></li>
             <li><i class="fa fa-sun-"></i>Duration of Employment : <?php echo $job->DURATION_EMPLOYMENT; ?></li>
         </ul>
 	</div> 
@@ -103,12 +103,15 @@ $attachmentfile = $mydb->loadSingleResult();
 </div> 
 <div class="col-sm-12 content-footer">
 <p><i class="fa fa-paperclip"></i>  Attachment Files</p>
-	<div class="col-sm-12 slider">
-		 <h3>Download Attached File <a href="<?php echo web_root.'applicant/'.$attachmentfile->FILE_LOCATION; ?>">Here</a></h3>
-	</div> 
-	<div class="col-sm-12">
-            <p>Feedback</p>
-            <textarea class="input-group" name="REMARKS_ID"><?php echo isset($jobreg->REMARKS_ID) ? $jobreg->REMARKS_ID : ""; ?></textarea>
+					<?php
+					if ($attachmentfile && !empty($attachmentfile->FILE_LOCATION)) {
+						echo "File Location: " . $attachmentfile->FILE_LOCATION;
+					} else {
+						echo "No attached file found.";
+					}
+					?>
+            <p>Select Status :</p>
+            <textarea class="input-group" name="REMARKS_ID"><?php echo isset($jobreg->REMARK) ? $jobreg->REMARK_ID: ""; ?></textarea>
         </div>
 	<div class="col-sm-12  submit button "> 
 		<button type="submit" name="submit" class="btn btn-primary">Send</button>

@@ -20,7 +20,7 @@
                  <div class="form-group">
                     <div class="col-md-8">
                       <label class="col-md-4 control-label" for=
-                      "OCCUPATIONTITLE">Company Name:</label>
+                      "OCCUPATIONTITLE">Vacant Position:</label>
 
                       <div class="col-md-8">
                         <input type="hidden" name="JOBID" value="<?php echo $res->JOBID;?>">
@@ -47,35 +47,26 @@
                       </div>
                     </div>
                   </div>  
-                  <div class="form-group">
-                    <div class="col-md-8">
-                      <label class="col-md-4 control-label" for=
-                      "CATEGORY">Category:</label>
-
-                      <div class="col-md-8"> 
-                        <select class="form-control input-sm" id="CATEGORY" name="CATEGORY">
-                          <option value="None">Select</option>
-                          <?php 
-                            $sql ="SELECT * FROM `tblcategory` WHERE CATEGORY='".$res->CATEGORY."'";
-                            $mydb->setQuery($sql);
-                            $cur  = $mydb->loadResultList();
-                            foreach ($cur as $result) {
-                              # code...
-                              echo '<option SELECTED value='.$result->CATEGORY.'>'.$result->CATEGORY.'</option>';
-                            }
-                            $sql ="SELECT * FROM `tblcategory` WHERE CATEGORY!='".$res->CATEGORY."'";
-                            $mydb->setQuery($sql);
-                            $cur  = $mydb->loadResultList();
-                            foreach ($cur as $result) {
-                              # code...
-                              echo '<option value='.$result->CATEGORY.'>'.$result->CATEGORY.'</option>';
-                            }
-
-                          ?>
-                        </select>
+                      <div class="form-group">
+                          <div class="col-md-8">
+                              <label class="col-md-4 control-label" for="CATEGORY">Category:</label>
+                              <div class="col-md-8"> 
+                                  <select class="form-control input-sm" id="CATEGORY" name="CATEGORY">
+                                      <option value="None">Select</option>
+                                      <?php 
+                                      $sql ="SELECT * FROM `tblcategory`";
+                                      $mydb->setQuery($sql);
+                                      $categories = $mydb->loadResultList();
+                                      foreach ($categories as $category) {
+                                          $selected = ($res->CATEGORY == $category->CATEGORY) ? "selected" : "";
+                                          echo '<option value="'.$category->CATEGORY.'" '.$selected.'>'.$category->CATEGORY.'</option>';
+                                      }
+                                      ?>
+                                  </select>
+                              </div>
+                          </div>
                       </div>
-                    </div>
-                  </div>
+
                   <div class="form-group">
                     <div class="col-md-8">
                       <label class="col-md-4 control-label" for=
